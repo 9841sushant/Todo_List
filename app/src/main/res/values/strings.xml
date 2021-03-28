@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">TodoList</string>
+
+    <string name="priority_1">1</string>
+    <string name="priority_2">2</string>
+    <string name="priority_3">3</string>
+    <string name="priority_string">Priority</string>
+    <string name="high_priority">High</string>
+    <string name="med_priority">Medium</string>
+    <string name="low_priority">Low</string>
+
+    <!-- Strings for AddTaskActivity -->
+    <string name="add_button">Add</string>
+    <string name="hint_coffee">Coffee</string>
+    <string name="hint_add_instruction">Add Instruction</string>
+
+
+    <!-- Strings for task_layout -->
+    <string name="coffee_text">Coffee</string>
+    <string name="instruction_text">Instruction</string>
 </resources>
