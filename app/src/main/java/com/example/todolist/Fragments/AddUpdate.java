@@ -33,7 +33,8 @@ import java.util.Locale;
 
 public class AddUpdate extends Fragment {
 
-
+    // Extra for the task ID to be received in the intent
+    public static final String EXTRA_TASK_ID = "extraTaskId";
     // Extra for the task ID to be received after rotation
     public static final String INSTANCE_TASK_ID = "instanceTaskId";
     // Constants for priority
@@ -51,6 +52,8 @@ public class AddUpdate extends Fragment {
     RadioGroup mRadioGroup;
     Button mButton;
     View rootView;
+    Button btnDelete;
+    private int del_Clicked;
     private int mTaskId = DEFAULT_TASK_ID;
     AddUpdateTaskViewModel viewModel;
 
@@ -68,13 +71,33 @@ public class AddUpdate extends Fragment {
         }
 
         Intent intent = getActivity().getIntent();
+        if (intent != null && intent.hasExtra(EXTRA_TASK_ID)) {
+            mButton.setText(R.string.update_button);
+            btnDelete.setVisibility(View.VISIBLE);
 
+            if (mTaskId == DEFAULT_TASK_ID) {
+                // populate the UI
+
+                mTaskId = intent.getIntExtra(EXTRA_TASK_ID, DEFAULT_TASK_ID);
                 AddUpdateTaskViewModelFactory factory = new AddUpdateTaskViewModelFactory(getActivity().getApplication(), mTaskId);
                 viewModel = ViewModelProviders.of(this, factory).get(AddUpdateTaskViewModel.class);
 
-                mEditText = rootView.findViewById(R.id.editTextCoffee);
-                ImageView speak = rootView.findViewById(R.id.speak);
+                viewModel.getTask().observe(getActivity(), new Observer<TaskEntry>() {
+                    @Override
+                    public void onChanged(TaskEntry taskEntry) {
+                        viewModel.getTask().removeObserver(this);
+                        populateUI(taskEntry);
+                    }
+                });
 
+            }
+        }else {
+
+            AddUpdateTaskViewModelFactory factory = new AddUpdateTaskViewModelFactory(getActivity().getApplication(), mTaskId);
+            viewModel = ViewModelProviders.of(this, factory).get(AddUpdateTaskViewModel.class);
+        }
+        mEditText = rootView.findViewById(R.id.editTextCoffee);
+        ImageView speak = rootView.findViewById(R.id.speak);
         speak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +132,7 @@ public class AddUpdate extends Fragment {
         mEditText = rootView.findViewById(R.id.editTextCoffee);
         AddNote = rootView.findViewById(R.id.editTextInstruction);
         mRadioGroup = rootView.findViewById(R.id.radioGroup);
-
+        btnDelete=rootView.findViewById(R.id.deleteButton);
         mButton = rootView.findViewById(R.id.saveButton);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,10 +140,44 @@ public class AddUpdate extends Fragment {
                 onSaveButtonClicked();
             }
         });
-
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDeleteButtonClicked();
+            }
+        });
+    }
+    private void onDeleteButtonClicked() {
+        String description = mEditText.getText().toString();
+        String note=AddNote.getText().toString();
+        int priority = getPriorityFromViews();
+        Date date = new Date();
+        del_Clicked=1;
+        TaskEntry todo = new TaskEntry(description,note, priority, date);
+        if(del_Clicked==1) {
+            todo.setId(mTaskId);
+            viewModel.deleteTask(todo);
+        }
+        getActivity().finish();
+        Toast toast=Toast.makeText(getActivity().getApplicationContext(),"Order Deleted",Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.BOTTOM, 0, 80);
+        toast.show();
     }
 
+    /**
+     * populateUI would be called to populate the UI when in update mode
+     *
+     * @param task the taskEntry to populate the UI
+     */
+    private void populateUI(TaskEntry task) {
+        if(task == null){
+            return;
+        }
+        mEditText.setText(task.getDescription());
+        AddNote.setText(task.getNote());
+        setPriorityInViews(task.getPriority());
 
+    }
 
 
     /**
@@ -137,15 +194,23 @@ public class AddUpdate extends Fragment {
         TaskEntry todo = new TaskEntry(description, note, priority, date);
 
 
-
+        if(mTaskId == DEFAULT_TASK_ID) {
             viewModel.insertTask(todo);
-            Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Task added", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Order added", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM, 0, 80);
             toast.show();
 
+        }
+        else{
+            todo.setId(mTaskId);
+            viewModel.updateTask(todo);
+            Toast toast1=Toast.makeText(getActivity().getApplicationContext(),"Order updated",Toast.LENGTH_SHORT);
+            toast1.setGravity(Gravity.BOTTOM, 0, 80);
+            toast1.show();
 
-
+        }
         getActivity().finish();
+
 
 
     }
@@ -167,6 +232,23 @@ public class AddUpdate extends Fragment {
                 priority = PRIORITY_LOW;
         }
         return priority;
+    }
+    /**
+     * setPriority is called when we receive a task from MainActivity
+     *
+     * @param priority the priority value
+     */
+    public void setPriorityInViews(int priority) {
+        switch (priority) {
+            case PRIORITY_HIGH:
+                ((RadioGroup) rootView.findViewById(R.id.radioGroup)).check(R.id.radButton1);
+                break;
+            case PRIORITY_MEDIUM:
+                ((RadioGroup) rootView.findViewById(R.id.radioGroup)).check(R.id.radButton2);
+                break;
+            case PRIORITY_LOW:
+                ((RadioGroup) rootView.findViewById(R.id.radioGroup)).check(R.id.radButton3);
+        }
     }
 
     @Override

@@ -12,7 +12,7 @@ import com.example.todolist.R;
 public class AddUpdateTaskActivity extends AppCompatActivity {
 
 
-
+    public static final String EXTRA_TASK_ID = "extraTaskId";
     // Constant for logging
     private static final String TAG = AddUpdateTaskActivity.class.getSimpleName();
     Fragment mFragment;
