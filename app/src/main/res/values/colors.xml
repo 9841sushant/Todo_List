@@ -11,7 +11,8 @@
     <color name="priority3">#EFDB2E</color>
 
     <!-- colors for button -->
-    <color name="button">#673AB7</color>
-    <color name="button2">#D8491C</color>
-    <color name="text">#E8E4D6</color>
+    <color name="login">#E4673AB7</color>
+    <color name="register">#E2D8491C</color>
+    <color name="text">#A5A08E</color>
+    <color name="button_text">#F6F6F6</color>
 </resources>

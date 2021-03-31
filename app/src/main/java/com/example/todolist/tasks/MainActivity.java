@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity  {
     MainActivityViewModel viewModel;
     Fragment mFragment;
     FragmentManager mFragmentManager;
-
+    String user_id;
 
 
     @Override
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity  {
         mFragmentManager.beginTransaction()
                 .add(R.id.Main_xml,mFragment)
                 .commit();
+
+        user_id=getIntent().getStringExtra("userId");
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
 
 
@@ -66,7 +70,7 @@ public class MainActivity extends AppCompatActivity  {
             public void onClick(View view) {
                 // Create a new intent to start an AddTaskActivity
                 Intent addTaskIntent = new Intent(MainActivity.this, AddUpdateTaskActivity.class);
-
+                addTaskIntent.putExtra("userId",user_id);
                 startActivity(addTaskIntent);
             }
         });
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity  {
 
         inflater.inflate( R.menu.delete_menu, menu );
 
+        inflater.inflate( R.menu.logout_menu, menu );
 
 
         return true;
@@ -90,6 +95,33 @@ public class MainActivity extends AppCompatActivity  {
                 viewModel.deleteAllNotes();
                 Toast.makeText(this, "Deleted all orders", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.logout_app:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(
+                        "Do you really want to logout?")
+                        // Setting Icon to Dialog
+
+                        .setCancelable(false)
+                        .setPositiveButton("Logout",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        //to perform on ok
+                                        finish();
+
+
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+
+                                        dialog.cancel();
+                                    }
+                                });
+                AlertDialog alert = builder.create();
+                alert.show();
 
 
             default:

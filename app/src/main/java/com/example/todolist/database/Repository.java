@@ -11,8 +11,8 @@ public class Repository {
         dao = appDatabase.taskDao();
     }
 
-    public LiveData<List<TaskEntry>> getTasks(){
-        return dao.loadAllTasks();
+    public LiveData<List<TaskEntry>> getTasks(int user_id){
+        return dao.loadAllTasks(user_id);
     }
 
     public LiveData<TaskEntry> getTaskById(int taskId){

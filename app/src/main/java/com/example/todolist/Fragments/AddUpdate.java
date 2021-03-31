@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class AddUpdate extends Fragment {
-
+    private int user_id;
     // Extra for the task ID to be received in the intent
     public static final String EXTRA_TASK_ID = "extraTaskId";
     // Extra for the task ID to be received after rotation
@@ -63,7 +63,7 @@ public class AddUpdate extends Fragment {
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_try_frag, container, false);
         rootView = inflater.inflate(R.layout.fragment_add_update, container, false);
-
+        user_id=Integer.parseInt(getActivity().getIntent().getStringExtra("userId"));
         initViews();
 
         if (savedInstanceState != null && savedInstanceState.containsKey(INSTANCE_TASK_ID)) {
@@ -153,7 +153,7 @@ public class AddUpdate extends Fragment {
         int priority = getPriorityFromViews();
         Date date = new Date();
         del_Clicked=1;
-        TaskEntry todo = new TaskEntry(description,note, priority, date);
+        TaskEntry todo = new TaskEntry(description,note, priority, date,user_id);
         if(del_Clicked==1) {
             todo.setId(mTaskId);
             viewModel.deleteTask(todo);
@@ -191,7 +191,7 @@ public class AddUpdate extends Fragment {
         int priority = getPriorityFromViews();
         Date date = new Date();
 
-        TaskEntry todo = new TaskEntry(description, note, priority, date);
+        TaskEntry todo = new TaskEntry(description, note, priority, date,user_id);
 
 
         if(mTaskId == DEFAULT_TASK_ID) {
