@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +23,6 @@ import com.example.todolist.AddUpdateTask.AddUpdateTaskViewModel;
 import com.example.todolist.AddUpdateTask.AddUpdateTaskViewModelFactory;
 import com.example.todolist.R;
 import com.example.todolist.database.TaskEntry;
-import com.example.todolist.tasks.TaskAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,7 +69,7 @@ public class AddUpdate extends Fragment {
                 AddUpdateTaskViewModelFactory factory = new AddUpdateTaskViewModelFactory(getActivity().getApplication(), mTaskId);
                 viewModel = ViewModelProviders.of(this, factory).get(AddUpdateTaskViewModel.class);
 
-                mEditText = rootView.findViewById(R.id.editTextCoffee);
+                mEditText = rootView.findViewById(R.id.editTexttask);
                 ImageView speak = rootView.findViewById(R.id.speak);
 
         speak.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +103,7 @@ public class AddUpdate extends Fragment {
      * initViews is called from onCreate to init the member variable views
      */
     void initViews() {
-        mEditText = rootView.findViewById(R.id.editTextCoffee);
+        mEditText = rootView.findViewById(R.id.editTexttask);
         AddNote = rootView.findViewById(R.id.editTextInstruction);
         mRadioGroup = rootView.findViewById(R.id.radioGroup);
 

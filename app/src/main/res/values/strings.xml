@@ -11,13 +11,13 @@
 
     <!-- Strings for AddTaskActivity -->
     <string name="add_button">Add</string>
-    <string name="hint_coffee">Coffee</string>
-    <string name="hint_add_instruction">Add Instruction</string>
+    <string name="hint_Task">Your Task</string>
+    <string name="hint_add_instruction">Note</string>
 
 
     <!-- Strings for task_layout -->
-    <string name="coffee_text">Coffee</string>
-    <string name="instruction_text">Instruction</string>
+    <string name="task_text">Your Task</string>
+    <string name="instruction_text">Note</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
