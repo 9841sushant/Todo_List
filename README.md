@@ -31,7 +31,7 @@
 #
 ## Delete Task
 | Delete Task from the list | Task Deleted from the list | All Task Deleted |
-| ---------- | ---------- |
+| ---------- | ---------- | ---------- |
 | ![](./screenshots/update_task.jpg)  | ![](./screenshots/delete_task.jpg)  | ![](./screenshots/deleteall.jpg)  |
 #
 ## Logout
