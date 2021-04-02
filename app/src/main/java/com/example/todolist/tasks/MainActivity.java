@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
@@ -21,10 +20,7 @@ import android.widget.Toast;
 import com.example.todolist.AddUpdateTask.AddUpdateTaskActivity;
 import com.example.todolist.Fragments.MainFragment;
 import com.example.todolist.R;
-import com.example.todolist.database.TaskEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity  {
@@ -91,9 +87,9 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.delete_all_orders:
+            case R.id.delete_all_tasks:
                 viewModel.deleteAllNotes();
-                Toast.makeText(this, "Deleted all orders", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Deleted all Tasks", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.logout_app:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);

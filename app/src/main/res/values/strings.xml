@@ -11,12 +11,15 @@
 
     <!-- Strings for AddTaskActivity -->
     <string name="add_button">Add</string>
-    <string name="hint_coffee">Coffee</string>
-    <string name="hint_add_instruction">Add Instruction</string>
+    <string name="hint_Task">Your Task</string>
+    <string name="hint_add_instruction">Note</string>
     <string name="update_button">Update</string>
     <string name="btn_delete">Delete</string>
     <!-- Strings for task_layout -->
-    <string name="coffee_text">Coffee</string>
-    <string name="instruction_text">Instruction</string>
+
+    <string name="task_text">Your Task</string>
+    <string name="instruction_text">Note</string>
+    <!-- String for Splash -->
+    <string name="welcome">Welcome</string>
 
 </resources>

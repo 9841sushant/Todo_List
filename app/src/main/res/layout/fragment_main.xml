@@ -11,7 +11,7 @@
         android:id="@+id/recyclerViewTasks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/coffee1"
+        android:background="@drawable/note"
         android:clipToPadding="false"
         android:paddingBottom="80dp" />
 

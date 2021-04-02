@@ -9,18 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".tasks.Activityregister"></activity>
-        <activity android:name=".tasks.ActivityLogin" >
+        <activity android:name=".tasks.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddUpdateTask.AddUpdateTaskActivity" />
-        <activity android:name=".tasks.MainActivity">
+        <activity android:name=".tasks.Activityregister" />
+        <activity android:name=".tasks.ActivityLogin">
 
         </activity>
+        <activity android:name=".AddUpdateTask.AddUpdateTaskActivity"
+            android:label="Add a new Task" />
+        <activity android:name=".tasks.MainActivity"></activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

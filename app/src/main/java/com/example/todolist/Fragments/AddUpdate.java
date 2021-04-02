@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,6 @@ import com.example.todolist.AddUpdateTask.AddUpdateTaskViewModel;
 import com.example.todolist.AddUpdateTask.AddUpdateTaskViewModelFactory;
 import com.example.todolist.R;
 import com.example.todolist.database.TaskEntry;
-import com.example.todolist.tasks.TaskAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -96,7 +94,7 @@ public class AddUpdate extends Fragment {
             AddUpdateTaskViewModelFactory factory = new AddUpdateTaskViewModelFactory(getActivity().getApplication(), mTaskId);
             viewModel = ViewModelProviders.of(this, factory).get(AddUpdateTaskViewModel.class);
         }
-        mEditText = rootView.findViewById(R.id.editTextCoffee);
+        mEditText = rootView.findViewById(R.id.editTexttask);
         ImageView speak = rootView.findViewById(R.id.speak);
         speak.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +127,7 @@ public class AddUpdate extends Fragment {
      * initViews is called from onCreate to init the member variable views
      */
     void initViews() {
-        mEditText = rootView.findViewById(R.id.editTextCoffee);
+        mEditText = rootView.findViewById(R.id.editTexttask);
         AddNote = rootView.findViewById(R.id.editTextInstruction);
         mRadioGroup = rootView.findViewById(R.id.radioGroup);
         btnDelete=rootView.findViewById(R.id.deleteButton);
@@ -159,7 +157,7 @@ public class AddUpdate extends Fragment {
             viewModel.deleteTask(todo);
         }
         getActivity().finish();
-        Toast toast=Toast.makeText(getActivity().getApplicationContext(),"Order Deleted",Toast.LENGTH_SHORT);
+        Toast toast=Toast.makeText(getActivity().getApplicationContext(),"Task Deleted",Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.BOTTOM, 0, 80);
         toast.show();
     }
@@ -186,33 +184,58 @@ public class AddUpdate extends Fragment {
      */
     public void onSaveButtonClicked() {
         // Not yet implemented
+        if(!emptyFields()){
+            String description = mEditText.getText().toString();
+            String note = AddNote.getText().toString();
+            int priority = getPriorityFromViews();
+            Date date = new Date();
+
+            TaskEntry todo = new TaskEntry(description, note, priority, date,user_id);
+
+
+            if(mTaskId == DEFAULT_TASK_ID) {
+                viewModel.insertTask(todo);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Task added", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.BOTTOM, 0, 80);
+                toast.show();
+
+            }
+            else{
+                todo.setId(mTaskId);
+                viewModel.updateTask(todo);
+                Toast toast1=Toast.makeText(getActivity().getApplicationContext(),"Task updated",Toast.LENGTH_SHORT);
+                toast1.setGravity(Gravity.BOTTOM, 0, 80);
+                toast1.show();
+
+            }
+            getActivity().finish();
+        }else{
+            Toast toast1=Toast.makeText(getActivity().getApplicationContext(),"Please fill up the form properties",Toast.LENGTH_SHORT);
+            toast1.show();
+        }
+
+
+    }
+
+    private boolean emptyFields() {
         String description = mEditText.getText().toString();
         String note = AddNote.getText().toString();
-        int priority = getPriorityFromViews();
-        Date date = new Date();
-
-        TaskEntry todo = new TaskEntry(description, note, priority, date,user_id);
-
-
-        if(mTaskId == DEFAULT_TASK_ID) {
-            viewModel.insertTask(todo);
-            Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Order added", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.BOTTOM, 0, 80);
-            toast.show();
-
+        if (description.isEmpty() && note.isEmpty()) {
+            mEditText.setError("Describe your task");
+            AddNote.setError("Add Note");
+            return true;
         }
-        else{
-            todo.setId(mTaskId);
-            viewModel.updateTask(todo);
-            Toast toast1=Toast.makeText(getActivity().getApplicationContext(),"Order updated",Toast.LENGTH_SHORT);
-            toast1.setGravity(Gravity.BOTTOM, 0, 80);
-            toast1.show();
-
+        else if (description.isEmpty()) {
+            mEditText.setError("Describe your task");
+            return true;
+        }else if (note.isEmpty()) {
+            AddNote.setError("Add Note");
+            return true;
         }
-        getActivity().finish();
-
-
-
+        else
+        {
+            return false;
+        }
     }
 
     /**

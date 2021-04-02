@@ -41,7 +41,7 @@ public class ActivityLogin extends AppCompatActivity {
         database= AppDatabase.getInstance(this);
         repouser=new repoUser(database);
 
-        signIn = findViewById(R.id.SignIn);
+        signIn = findViewById(R.id.Login);
         signUp = findViewById(R.id.Register);
         userEmail = findViewById(R.id.user_email);
         userPassword = findViewById(R.id.user_Password);
@@ -57,6 +57,29 @@ public class ActivityLogin extends AppCompatActivity {
                 startActivity(new Intent(ActivityLogin.this, Activityregister.class));
             }
         });
+    }
+    private boolean emptyValidation()
+    {
+        String Email = userEmail.getText().toString();
+        String Pass = userPassword.getText().toString();
+        if (Email.isEmpty() && Pass.isEmpty()) {
+            userEmail.setError("Enter your Email");
+            userPassword.setError("Enter your password");
+            return true;
+        }
+        else if (Email.isEmpty()) {
+            userEmail.setError("Enter your Email");
+            return true;
+        }else if (Pass.isEmpty()) {
+            userPassword.setError("Enter your password");
+            return true;
+        }
+
+        else
+        {
+            return false;
+        }
+
     }
 
     private class AsyncLogin extends AsyncTask<Void,Void,Void> {
@@ -84,6 +107,12 @@ public class ActivityLogin extends AppCompatActivity {
     }
 
     public void login(View view) {
-        new AsyncLogin().execute();
+
+        if(!emptyValidation()) {
+
+            new AsyncLogin().execute();
+        }else{
+            Toast.makeText(getApplicationContext(), "Please fill up the form properties", Toast.LENGTH_SHORT).show();
+        }
     }
 }
